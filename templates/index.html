@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breast Cancer Prediction Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffe6f0;
+            text-align: center;
+            padding: 20px;
+        }
+        h2 {
+            color: #d63384;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        form {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        input[type="text"] {
+            width: 300px;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        input[type="submit"] {
+            background-color: #d63384;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        input[type="submit"]:hover {
+            background-color: #c2185b;
+        }
+        .diagnosis {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #4caf50;
+        }
+        img {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Logo -->
+    <img src="{{ url_for('static', filename='breast_cancer_logo.png') }}" alt="Breast Cancer Logo" width="250">
+    
+    <h2>Breast Cancer Prediction Tool</h2>
+    
+    <!-- Form -->
+    <form method="POST">
+        <!-- ID Field -->
+        <div class="form-group">
+            <label>ID</label>
+            <input type="number" name="id" placeholder="Enter ID" required>
+        </div>
+
+        {% for feature in [
+            'Radius Mean', 'Texture Mean', 'Perimeter Mean', 'Area Mean', 
+            'Smoothness Mean', 'Compactness Mean', 'Concavity Mean', 
+            'Concave Points Mean', 'Symmetry Mean', 'Fractal Dimension Mean',
+            'Radius SE', 'Texture SE', 'Perimeter SE', 'Area SE', 'Smoothness SE',
+            'Compactness SE', 'Concavity SE', 'Concave Points SE', 'Symmetry SE', 
+            'Fractal Dimension SE', 'Radius Worst', 'Texture Worst', 
+            'Perimeter Worst', 'Area Worst', 'Smoothness Worst', 'Compactness Worst',
+            'Concavity Worst', 'Concave Points Worst', 'Symmetry Worst', 
+            'Fractal Dimension Worst'
+        ] %}
+        <div class="form-group">
+            <label>{{ feature }}</label>
+            <input type="text" name="{{ feature | lower | replace(' ', '_') }}" placeholder="Enter {{ feature }}" required>
+        </div>
+        {% endfor %}
+        <input type="submit" value="Predict">
+    </form>
+    
+    <!-- Diagnosis result -->
+    {% if diagnosis %}
+    <div class="diagnosis"><strong>Diagnosis:</strong> {{ diagnosis }}</div>
+    {% endif %}
+</body>
+</html>
